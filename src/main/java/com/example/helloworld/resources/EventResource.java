@@ -34,8 +34,8 @@ public class EventResource {
 
     @GET
     @UnitOfWork
-    public List<Event> listEvent() {
-        return eventDAO.findAll();
+    public List<Event> listEvent(@QueryParam("name") String name) {
+        return eventDAO.findAll(name);
     }
 
 

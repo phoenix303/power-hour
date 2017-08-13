@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.hibernate.validator.constraints.Length;
 
-import java.sql.Time;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -29,7 +28,9 @@ import javax.persistence.Table;
         @NamedQuery(
                 name = "com.example.helloworld.core.Event.findById",
                 query = "SELECT m FROM Event m WHERE m.id = :id"
-        )
+        ),
+        @NamedQuery(name = "com.example.helloworld.core.Event.searchByName",
+                query = "SELECT u FROM User u WHERE u.name LIKE :name ORDER BY u.id ASC"),
 })
 public class Event {
 
@@ -40,7 +41,7 @@ public class Event {
     private Long id;
 
     @Length(max = 50)
-    private String title;
+    private String name;
 
     @Column(nullable = false)
     private String type;
@@ -85,12 +86,12 @@ public class Event {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
 

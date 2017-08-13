@@ -20,8 +20,11 @@ public class EventDAO extends AbstractDAO<Event> {
         return persist(event);
     }
 
-    public List<Event> findAll() {
-        return list(namedQuery("com.example.helloworld.core.Event.findAll"));
+    public List<Event> findAll(String eventname) {
+        if(eventname == null || eventname.isEmpty()) {
+            return list(namedQuery("com.example.helloworld.core.Event.findAll"));
+        }
+        return list(namedQuery("com.example.helloworld.core.Event.searchByName").setParameter("name", eventname));
     }
 }
 
