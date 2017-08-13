@@ -30,7 +30,7 @@ import javax.persistence.Table;
                 query = "SELECT m FROM Event m WHERE m.id = :id"
         ),
         @NamedQuery(name = "com.example.helloworld.core.Event.searchByName",
-                query = "SELECT u FROM User u WHERE u.name LIKE :name ORDER BY u.id ASC"),
+                query = "SELECT u FROM Event u WHERE u.name LIKE :name ORDER BY u.id ASC"),
 })
 public class Event {
 
