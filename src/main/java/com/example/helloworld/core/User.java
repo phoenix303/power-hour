@@ -38,6 +38,17 @@ public class User {
     public static final String ROLE_ADMIN = "admin";
     public static final String ROLE_EDITOR = "editor";
 
+    public User() {
+        
+    }
+
+    public User(String username, String password, String fullname, String role) {
+        this.username = username;
+        this.password = password;
+        this.fullname = fullname;
+        this.role = role;
+    }
+
     @Id
     @SequenceGenerator(name = "userSeq", sequenceName="user_id_seq", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "userSeq")
@@ -98,9 +109,8 @@ public class User {
         return role;
     }
 
-    public User setRole(String role) {
+    public void setRole(String role) {
         this.role = role;
-        return this;
     }
 }
 

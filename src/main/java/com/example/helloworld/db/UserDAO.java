@@ -55,7 +55,11 @@ public class UserDAO extends AbstractDAO<User> {
         return list(query);
     }
 
-    public List<User> findAll() {
-        return list(namedQuery("com.example.helloworld.core.User.findAll"));
+    public List<User> findAll(String username) {
+        System.out.println("Username :::::::: " + username);
+        if(username == "" || username == null) {
+            return list(namedQuery("com.example.helloworld.core.User.findAll"));
+        }
+        return list(namedQuery("com.example.helloworld.core.User.searchByUsername").setParameter("username", username));
     }
 }
