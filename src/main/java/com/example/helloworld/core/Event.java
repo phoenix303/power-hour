@@ -55,16 +55,16 @@ public class Event {
     }
 
     public Date getDateTime() {
-        return dateTime;
+        return datetime;
     }
 
-    public void setDateTime(Date dateTime) {
-        this.dateTime = dateTime;
+    public void setDateTime(Date datetime) {
+        this.datetime = datetime;
     }
 
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dateTime;
+    private Date datetime;
 
     @Column(nullable = false)
     private String location;
