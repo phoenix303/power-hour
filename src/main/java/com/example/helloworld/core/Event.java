@@ -28,7 +28,7 @@ import javax.persistence.Table;
         ),
         @NamedQuery(
                 name = "com.example.helloworld.core.Event.findById",
-                query = "SELECT m FROM Event m WHERE v.id = :id"
+                query = "SELECT m FROM Event m WHERE m.id = :id"
         )
 })
 public class Event {

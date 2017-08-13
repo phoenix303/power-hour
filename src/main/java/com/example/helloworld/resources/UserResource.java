@@ -58,6 +58,6 @@ public class UserResource {
         if (!user.isPresent()) {
             throw new NotFoundException("No such user.");
         }
-        return userId.get();
+        return user.get();
     }
 }

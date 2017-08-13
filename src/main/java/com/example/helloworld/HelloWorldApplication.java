@@ -1,12 +1,16 @@
 package com.example.helloworld;
 
-import com.example.helloworld.auth.ExampleAuthenticator;
+//import com.example.helloworld.auth.PowerHourAuthenticator;
+import com.example.helloworld.auth.PasswordUtil;
+
 import com.example.helloworld.cli.RenderCommand;
 import com.example.helloworld.core.Person;
 import com.example.helloworld.core.School;
 import com.example.helloworld.core.Company;
 import com.example.helloworld.core.Event;
 import com.example.helloworld.core.User;
+import com.example.helloworld.core.Session;
+
 
 import com.example.helloworld.core.Template;
 import com.example.helloworld.db.PersonDAO;
@@ -14,6 +18,7 @@ import com.example.helloworld.db.SchoolDAO;
 import com.example.helloworld.db.CompanyDAO;
 import com.example.helloworld.db.EventDAO;
 import com.example.helloworld.db.UserDAO;
+import com.example.helloworld.db.SessionDAO;
 
 import com.example.helloworld.health.TemplateHealthCheck;
 import com.example.helloworld.resources.*;
@@ -37,7 +42,7 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
     }
 
     private final HibernateBundle<HelloWorldConfiguration> hibernateBundle =
-            new HibernateBundle<HelloWorldConfiguration>(Person.class, School.class, Company.class, Event.class, User.class) {
+            new HibernateBundle<HelloWorldConfiguration>(Person.class, School.class, Company.class, Event.class, User.class, Session.class) {
                 @Override
                 public DataSourceFactory getDataSourceFactory(HelloWorldConfiguration configuration) {
                     return configuration.getDataSourceFactory();
@@ -80,12 +85,15 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
 
         final EventDAO eventDAO = new EventDAO(hibernateBundle.getSessionFactory());
 
+        final SessionDAO sessionDAO = new SessionDAO(hibernateBundle.getSessionFactory());
+
+
         final Template template = configuration.buildTemplate();
 
         environment.healthChecks().register("template", new TemplateHealthCheck(template));
 
-        environment.jersey().register(new BasicAuthProvider<>(new ExampleAuthenticator(),
-                                                              "SUPER SECRET STUFF"));
+       // environment.jersey().register(new BasicAuthProvider<>(new PowerHourAuthenticator(userDAO, new PasswordUtil(15)), "SUPER SECRET STUFF"));
+
         environment.jersey().register(new HelloWorldResource(template));
         environment.jersey().register(new ViewResource());
        // environment.jersey().register(new ProtectedResource());
@@ -95,6 +103,9 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
         environment.jersey().register(new CompanyResource(companyDAO));
 
         environment.jersey().register(new UserResource(userDAO));
+
+        environment.jersey().register(new SessionResource(userDAO, sessionDAO));
+
         environment.jersey().register(new EventResource(eventDAO));
 
 
