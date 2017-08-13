@@ -19,12 +19,10 @@ import javax.persistence.Table;
 @NamedQueries({
         @NamedQuery(
                 name = "com.example.helloworld.core.User.findAll",
-                query = "SELECT u FROM User u"
-        ),
+                query = "SELECT u FROM User u"),
         @NamedQuery(
                 name = "com.example.helloworld.core.User.findById",
-                query = "SELECT u FROM User u WHERE u.id = :id"
-        ),
+                query = "SELECT u FROM User u WHERE u.id = :id"),
 
         @NamedQuery(name = "com.example.helloworld.core.User.searchByUsername",
                 query = "SELECT u FROM User u WHERE u.username LIKE :username ORDER BY u.id ASC"),

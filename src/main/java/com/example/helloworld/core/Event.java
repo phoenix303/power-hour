@@ -23,12 +23,10 @@ import javax.persistence.Table;
 @NamedQueries({
         @NamedQuery(
                 name = "com.example.helloworld.core.Event.findAll",
-                query = "SELECT v FROM Event v"
-        ),
+                query = "SELECT v FROM Event v"),
         @NamedQuery(
                 name = "com.example.helloworld.core.Event.findById",
-                query = "SELECT v FROM Event v WHERE v.id = :id"
-        ),
+                query = "SELECT v FROM Event v WHERE v.id = :id"),
         @NamedQuery(name = "com.example.helloworld.core.Event.searchByName",
                 query = "SELECT v FROM Event v WHERE v.name LIKE :name ORDER BY v.id ASC"),
 
