@@ -48,8 +48,8 @@ public class UserResource {
 
     @GET
     @UnitOfWork
-    public List<User> listUser() {
-        return userDAO.findAll();
+    public List<User> listUser(@QueryParam("username") String username) {
+        return userDAO.findAll(username);
     }
 
 
@@ -68,7 +68,7 @@ public class UserResource {
         return user.get();
     }
 
-    @GET
+    /*@GET
     @UnitOfWork
     public Response searchByUsername(@QueryParam("username") String username){
 
@@ -91,7 +91,7 @@ public class UserResource {
         }
 
         return Response.ok(listCopy).build();
-    }
+    }*/
 
 
 }
