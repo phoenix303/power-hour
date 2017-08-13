@@ -25,6 +25,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import com.sun.jersey.api.NotFoundException;
 import io.dropwizard.hibernate.UnitOfWork;
 import io.dropwizard.jersey.errors.ErrorMessage;
+import io.dropwizard.jersey.params.IntParam;
 import io.dropwizard.jersey.params.LongParam;
 import java.util.List;
 
@@ -66,6 +67,33 @@ public class UserResource {
         }
         return user.get();
     }
+
+    @GET
+    @UnitOfWork
+    public Response searchByUsername(@QueryParam("username") String username){
+
+        if (username == null || !username.isEmpty()) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(new ErrorMessage("No username entered")).build();
+        }
+
+        List<User> list = this.userDAO.searchByUsername(username);
+
+        if (list.isEmpty()) {
+            return Response.status(Response.Status.NO_CONTENT).entity(new ErrorMessage("No results for username found")).build();
+        }
+
+        List<User> listCopy = new ArrayList<>();
+
+        for(User user : list) {
+            User userCopy = new User(user);
+            userCopy.setPassword(null);
+            listCopy.add(userCopy);
+        }
+
+        return Response.ok(listCopy).build();
+    }
+
+
 }
 
 

@@ -55,6 +55,13 @@ public class User {
     @Column(nullable = false)
     private String role;
 
+    public User(User obj) {
+        this.id = obj.getId();
+        this.fullname = obj.getFullname();
+        this.username = obj.getUsername();
+        this.role = obj.getRole();
+    }
+
     public long getId() {
         return id;
     }

@@ -48,11 +48,10 @@ public class UserDAO extends AbstractDAO<User> {
         return user;
     }
 
-    public List<User> searchByUsername(String optional, int start, int size) {
+    public List<User> searchByUsername(String optional) {
         Query query = namedQuery(
                 "com.example.helloworld.core.User.searchByUsername");
-        query.setParameter("username", "%" + optional + "%")
-                .setFirstResult(start).setMaxResults(size);
+        query.setParameter("username", "%" + optional + "%");
         return list(query);
     }
 
