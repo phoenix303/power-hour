@@ -60,5 +60,4 @@ public class UserResource {
         }
         return userId.get();
     }
-
 }
