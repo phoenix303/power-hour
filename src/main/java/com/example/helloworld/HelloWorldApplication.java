@@ -5,11 +5,15 @@ import com.example.helloworld.cli.RenderCommand;
 import com.example.helloworld.core.Person;
 import com.example.helloworld.core.School;
 import com.example.helloworld.core.Company;
+import com.example.helloworld.core.Event;
+import com.example.helloworld.core.User;
 
 import com.example.helloworld.core.Template;
 import com.example.helloworld.db.PersonDAO;
 import com.example.helloworld.db.SchoolDAO;
 import com.example.helloworld.db.CompanyDAO;
+import com.example.helloworld.db.EventDAO;
+import com.example.helloworld.db.UserDAO;
 
 import com.example.helloworld.health.TemplateHealthCheck;
 import com.example.helloworld.resources.*;
@@ -33,7 +37,7 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
     }
 
     private final HibernateBundle<HelloWorldConfiguration> hibernateBundle =
-            new HibernateBundle<HelloWorldConfiguration>(Person.class, School.class, Company.class) {
+            new HibernateBundle<HelloWorldConfiguration>(Person.class, School.class, Company.class, Event.class, User.class) {
                 @Override
                 public DataSourceFactory getDataSourceFactory(HelloWorldConfiguration configuration) {
                     return configuration.getDataSourceFactory();
@@ -72,6 +76,10 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
 
         final CompanyDAO companyDAO = new CompanyDAO(hibernateBundle.getSessionFactory());
 
+        final UserDAO userDAO = new UserDAO(hibernateBundle.getSessionFactory());
+
+        final EventDAO eventDAO = new EventDAO(hibernateBundle.getSessionFactory());
+
         final Template template = configuration.buildTemplate();
 
         environment.healthChecks().register("template", new TemplateHealthCheck(template));
@@ -80,11 +88,15 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
                                                               "SUPER SECRET STUFF"));
         environment.jersey().register(new HelloWorldResource(template));
         environment.jersey().register(new ViewResource());
-        environment.jersey().register(new ProtectedResource());
+       // environment.jersey().register(new ProtectedResource());
         environment.jersey().register(new PeopleResource(dao));
         environment.jersey().register(new PersonResource(dao));
         environment.jersey().register(new SchoolResource(schoolDAO));
         environment.jersey().register(new CompanyResource(companyDAO));
+
+        environment.jersey().register(new UserResource(userDAO));
+        environment.jersey().register(new EventResource(eventDAO));
+
 
     }
 }
