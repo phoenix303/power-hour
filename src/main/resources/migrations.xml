@@ -44,6 +44,10 @@
             <column name="type" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
+
+            <column name="role" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 
@@ -107,7 +111,7 @@
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="fullName" type="varchar(255)">
+            <column name="fullname" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="username" type="varchar(255)">
@@ -115,6 +119,29 @@
             </column>
 
             <column name="password" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="role" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+    </changeSet>
+    <changeSet id="11" author="alexr">
+        <createTable tableName="session">
+            <column name="identity" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="accesstoken" type="varchar(255)">
+            <constraints nullable="false"/>
+            </column>
+
+            <column name="created" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="role" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
 

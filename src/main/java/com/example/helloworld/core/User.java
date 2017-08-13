@@ -24,16 +24,27 @@ import javax.persistence.Table;
         @NamedQuery(
                 name = "com.example.helloworld.core.User.findById",
                 query = "SELECT u FROM User u WHERE u.id = :id"
-        )
+        ),
+
+        @NamedQuery(name = "com.example.helloworld.core.User.searchByUsername",
+                query = "SELECT u FROM User u WHERE u.username LIKE :username ORDER BY u.id ASC"),
+        @NamedQuery(name = "com.example.helloworld.core.User.getByUsername",
+                query = "SELECT u FROM User u WHERE u.username = :username and u.password = :password"),
+        @NamedQuery(name = "com.example.helloworld.core.User.deleteUser",
+                query = "DELETE FROM User u WHERE u.id = :id")
 })
 public class User {
-    @Id
-    @SequenceGenerator(name = "personSeq", sequenceName="person_id_seq", allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "personSeq")
-    private Long id;
 
-    @Column(name = "fullName", nullable = false)
-    private String fullName;
+    public static final String ROLE_ADMIN = "admin";
+    public static final String ROLE_EDITOR = "editor";
+
+    @Id
+    @SequenceGenerator(name = "userSeq", sequenceName="user_id_seq", allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "userSeq")
+    private long id;
+
+    @Column(name = "fullname", nullable = false)
+    private String fullname;
 
     @Column(nullable = false, unique = true)
     private String username;
@@ -41,31 +52,23 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private String role;
 
-    public User(Long id, String fullName, String username, String password) {
-        this.id = new Long(id);
-        this.fullName = fullName;
-        this.username = username;
-        this.password = password;
-
-    }
-
-    @JsonProperty
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    @JsonIgnore
     public void setId(long id) {
         this.id = id;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
     public String getUsername() {
@@ -82,6 +85,15 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public User setRole(String role) {
+        this.role = role;
+        return this;
     }
 }
 
