@@ -10,6 +10,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 import com.google.common.base.Optional;
+
+import com.example.helloworld.db.UserDAO;
 import com.sun.jersey.api.NotFoundException;
 import io.dropwizard.hibernate.UnitOfWork;
 import io.dropwizard.jersey.params.LongParam;
@@ -21,9 +23,11 @@ import java.util.List;
 public class EventResource {
 
     private final EventDAO eventDAO;
+    private final UserDAO userDAO;
 
-    public EventResource(EventDAO eventDAO) {
+    public EventResource(EventDAO eventDAO, UserDAO userDAO) {
         this.eventDAO = eventDAO;
+        this.userDAO = userDAO;
     }
 
     @POST

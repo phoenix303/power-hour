@@ -27,11 +27,15 @@ import javax.persistence.Table;
         ),
         @NamedQuery(
                 name = "com.example.helloworld.core.Event.findById",
-                query = "SELECT m FROM Event m WHERE m.id = :id"
+                query = "SELECT v FROM Event v WHERE v.id = :id"
         ),
         @NamedQuery(name = "com.example.helloworld.core.Event.searchByName",
-                query = "SELECT u FROM Event u WHERE u.name LIKE :name ORDER BY u.id ASC"),
+                query = "SELECT v FROM Event v WHERE v.name LIKE :name ORDER BY v.id ASC"),
+
+        @NamedQuery(name = "com.example.helloworld.core.Event.getEventsForUser",
+                query = "SELECT i FROM Event i WHERE i.userId = :user_id"),
 })
+
 public class Event {
 
     // TODO : id//
@@ -45,6 +49,9 @@ public class Event {
 
     @Column(nullable = false)
     private String type;
+
+    @Column(name= "user_id", nullable = false)
+    private Long userID;
 
     public String getType() {
         return type;

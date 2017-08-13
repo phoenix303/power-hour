@@ -1,7 +1,6 @@
 package com.example.helloworld;
 
 //import com.example.helloworld.auth.PowerHourAuthenticator;
-import com.example.helloworld.auth.PasswordUtil;
 
 import com.example.helloworld.cli.RenderCommand;
 import com.example.helloworld.core.Person;
@@ -24,7 +23,6 @@ import com.example.helloworld.health.TemplateHealthCheck;
 import com.example.helloworld.resources.*;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
-import io.dropwizard.auth.basic.BasicAuthProvider;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.migrations.MigrationsBundle;
@@ -102,7 +100,7 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
         environment.jersey().register(new SchoolResource(schoolDAO));
         environment.jersey().register(new CompanyResource(companyDAO));
 
-        environment.jersey().register(new UserResource(userDAO));
+        environment.jersey().register(new UserResource(userDAO, eventDAO));
 
         environment.jersey().register(new SessionResource(userDAO, sessionDAO));
 

@@ -1,31 +1,17 @@
 package com.example.helloworld.resources;
 
-import com.codahale.metrics.annotation.Timed;
-import com.example.helloworld.core.Saying;
-import com.example.helloworld.core.Template;
+import com.example.helloworld.core.Event;
 import com.example.helloworld.core.User;
+import com.example.helloworld.db.EventDAO;
 import com.example.helloworld.db.UserDAO;
 
 import com.google.common.base.Optional;
 
-import io.dropwizard.auth.Auth;
-import io.dropwizard.jersey.caching.CacheControl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
-import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicLong;
 
 import com.sun.jersey.api.NotFoundException;
 import io.dropwizard.hibernate.UnitOfWork;
-import io.dropwizard.jersey.errors.ErrorMessage;
-import io.dropwizard.jersey.params.IntParam;
 import io.dropwizard.jersey.params.LongParam;
 import java.util.List;
 
@@ -35,9 +21,11 @@ import java.util.List;
 public class UserResource {
 
     private final UserDAO userDAO;
+    private final EventDAO eventDAO;
 
-    public UserResource(UserDAO userDAO) {
+    public UserResource(UserDAO userDAO, EventDAO eventDAO) {
         this.userDAO = userDAO;
+        this.eventDAO = eventDAO;
     }
 
     @POST
@@ -66,6 +54,13 @@ public class UserResource {
             throw new NotFoundException("No such user.");
         }
         return user.get();
+    }
+
+    @GET
+    @Path("/{userId}/events")
+    @UnitOfWork
+    public List<Event> getEventsForUser(@PathParam("userId") LongParam userId) {
+        return this.eventDAO.findAll(userId.get());
     }
 }
 

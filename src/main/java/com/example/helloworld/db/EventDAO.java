@@ -26,5 +26,9 @@ public class EventDAO extends AbstractDAO<Event> {
         }
         return list(namedQuery("com.example.helloworld.core.Event.searchByName").setParameter("name", eventname));
     }
+
+    public List<Event> findAll(Long userId) {
+        return list(namedQuery("com.example.helloworld.core.Event.getEventsForUser").setParameter("userId", userId));
+    }
 }
 
