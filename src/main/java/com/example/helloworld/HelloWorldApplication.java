@@ -3,8 +3,14 @@ package com.example.helloworld;
 import com.example.helloworld.auth.ExampleAuthenticator;
 import com.example.helloworld.cli.RenderCommand;
 import com.example.helloworld.core.Person;
+import com.example.helloworld.core.School;
+import com.example.helloworld.core.Company;
+
 import com.example.helloworld.core.Template;
 import com.example.helloworld.db.PersonDAO;
+import com.example.helloworld.db.SchoolDAO;
+import com.example.helloworld.db.CompanyDAO;
+
 import com.example.helloworld.health.TemplateHealthCheck;
 import com.example.helloworld.resources.*;
 import io.dropwizard.Application;
@@ -27,12 +33,13 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
     }
 
     private final HibernateBundle<HelloWorldConfiguration> hibernateBundle =
-            new HibernateBundle<HelloWorldConfiguration>(Person.class) {
+            new HibernateBundle<HelloWorldConfiguration>(Person.class, School.class, Company.class) {
                 @Override
                 public DataSourceFactory getDataSourceFactory(HelloWorldConfiguration configuration) {
                     return configuration.getDataSourceFactory();
                 }
             };
+
 
     @Override
     public String getName() {
@@ -51,6 +58,7 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
             }
         });
         bootstrap.addBundle(hibernateBundle);
+       // bootstrap.addBundle(hibernateBundleSchool);
         bootstrap.addBundle(new ViewBundle());
     }
 
@@ -59,6 +67,11 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
                     Environment environment) throws ClassNotFoundException {
         LOGGER.info("Starting the HelloWorld App");
         final PersonDAO dao = new PersonDAO(hibernateBundle.getSessionFactory());
+
+        final SchoolDAO schoolDAO = new SchoolDAO(hibernateBundle.getSessionFactory());
+
+        final CompanyDAO companyDAO = new CompanyDAO(hibernateBundle.getSessionFactory());
+
         final Template template = configuration.buildTemplate();
 
         environment.healthChecks().register("template", new TemplateHealthCheck(template));
@@ -70,5 +83,8 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
         environment.jersey().register(new ProtectedResource());
         environment.jersey().register(new PeopleResource(dao));
         environment.jersey().register(new PersonResource(dao));
+        environment.jersey().register(new SchoolResource(schoolDAO));
+        environment.jersey().register(new CompanyResource(companyDAO));
+
     }
 }

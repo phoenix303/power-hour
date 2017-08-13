@@ -19,4 +19,54 @@
             <column name="jobtitle" type="varchar(255)"/>
         </createTable>
     </changeSet>
+
+    <changeSet id="8" author="alexr">
+        <createSequence sequenceName="school_id_seq"/>
+        <createTable tableName="school">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="location" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="website" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="type" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="9" author="alexr">
+        <createSequence sequenceName="company_id_seq"/>
+        <createTable tableName="company">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="location" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="website" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
 </databaseChangeLog>
