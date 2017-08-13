@@ -30,7 +30,7 @@ import javax.persistence.Table;
                 query = "SELECT m FROM Event m WHERE m.id = :id"
         ),
         @NamedQuery(name = "com.example.helloworld.core.Event.searchByName",
-                query = "SELECT u FROM User u WHERE u.name LIKE :name ORDER BY u.id ASC"),
+                query = "SELECT u FROM Event u WHERE u.name LIKE :name ORDER BY u.id ASC"),
 })
 public class Event {
 
@@ -55,16 +55,16 @@ public class Event {
     }
 
     public Date getDateTime() {
-        return dateTime;
+        return datetime;
     }
 
-    public void setDateTime(Date dateTime) {
-        this.dateTime = dateTime;
+    public void setDateTime(Date datetime) {
+        this.datetime = datetime;
     }
 
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dateTime;
+    private Date datetime;
 
     @Column(nullable = false)
     private String location;

@@ -87,7 +87,7 @@
                 <constraints nullable="false"/>
             </column>
 
-            <column name="dateTime" type="TIMESTAMP">
+            <column name="datetime" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
 
